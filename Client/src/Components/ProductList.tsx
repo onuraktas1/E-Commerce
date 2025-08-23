@@ -1,21 +1,23 @@
 import type {IProduct} from "../Model/IProduct.ts";
 import Product from "./Product.tsx";
+import {Grid} from "@mui/material";
 
 interface Props {
     products: IProduct[];
-    addProduct: () => void;
 }
 
-export default function ProductList({products,addProduct}: Props) {
+export default function ProductList({products}: Props) {
     return (
-        <div>
-            <h2>ProductList</h2>
+        <Grid container spacing={2}>
             {
                 products.map((p: IProduct) =>
-                    (<Product key={p.id} product={p}/>))
-            }
+                    <Grid key={p.id} size={{xs: 6, md: 4, lg: 3}}>
+                        <Product key={p.id} product={p}/>
 
-            <button onClick={addProduct}>Add Product</button>
-        </div>
+                    </Grid>
+                )
+
+            }
+        </Grid>
     );
 }

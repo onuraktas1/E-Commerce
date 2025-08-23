@@ -2,6 +2,8 @@ import {useEffect, useState} from "react";
 import type {IProduct} from "../Model/IProduct.ts";
 import Header from "./Header.tsx";
 import ProductList from "./ProductList.tsx";
+import {Container, CssBaseline} from "@mui/material";
+import ButtonUsage from "./ButtonUsage.tsx";
 
 function App() {
     const [products, setProducts] = useState<IProduct[]>([]);
@@ -11,21 +13,21 @@ function App() {
             .then(response => response.json())
             .then(data => setProducts(data));
     }, [])
-
-    function addProduct() {
-        setProducts([...products, {id: Date.now(), name: "Product 4", price: 690, isActive: true}])
-    }
+    
 
     console.log("Render...")
     return (
         <>
-            <Header products={products}/>
-            <ProductList products={products} addProduct={addProduct} />
+            <CssBaseline/>
+            <Header/>
+            <Container>
+                <ProductList products={products} />
+                <ButtonUsage/>
+            </Container>
+            
         </>
     )
 }
-
-
 
 
 export default App
