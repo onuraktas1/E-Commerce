@@ -1,4 +1,5 @@
 import type {IProduct} from "../Model/IProduct.ts";
+import {Card} from "@mui/material";
 
 interface Props {
     product: IProduct;
@@ -6,14 +7,9 @@ interface Props {
 
 export default function Product({product}: Props) {
     return (
-        <>
-            {
-                <div>
-                    <h3>{product.name}</h3>
-                    <p>{product.price}</p>
-                </div>
-            }
-        </>
+        <Card>
+            
+        </Card>
 
     );
 }
