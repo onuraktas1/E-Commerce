@@ -5,6 +5,6 @@ export interface IProduct
     description?: string;
     price: number;
     isActive:boolean;
-    image?: string;
+    ImageUrl?: string;
     stock?: number;
 }
