@@ -1,4 +1,4 @@
-import type {IProduct} from "../Model/IProduct.ts";
+import type {IProduct} from "../../Model/IProduct.ts";
 import Product from "./Product.tsx";
 import {Grid} from "@mui/material";
 
