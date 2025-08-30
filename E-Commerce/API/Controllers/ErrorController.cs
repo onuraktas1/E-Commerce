@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Runtime.InteropServices.JavaScript;
+using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
 
@@ -27,7 +28,7 @@ public class ErrorController : ControllerBase
     [HttpGet("server-error")]
     public IActionResult ServerError()
     {
-        throw new Exception("Server Error");
+        throw new Exception("server error");
     }
 
     [HttpGet("validation-error")]

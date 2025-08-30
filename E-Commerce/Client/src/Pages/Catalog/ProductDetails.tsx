@@ -12,21 +12,21 @@
 import {useParams} from "react-router";
 import {useEffect, useState} from "react";
 import type {IProduct} from "../../Model/IProduct.ts";
+import request from "../../../api/requests.ts";
 
 export default function ProductDetailsPage() {
-    const {id} = useParams();
+    const {id} = useParams<{ id: string }>();
     const [product, setProducts] = useState<IProduct | null>(null);
     const [loading, setLoading] = useState(true);
     useEffect(() => {
-        fetch(`http://localhost:5278/api/products/${id}`)
-            .then(response => response.json())
+        id && request.Catalog.details(parseInt(id))
             .then(data => setProducts(data))
             .catch(e => console.log(e))
             .finally(() => setLoading(false));
     }, [id]);
 
     if (loading) return <CircularProgress/>;
-    if (!product) return <h5>Product not found...</h5>
+    if (!product) return 
 
 
     return (
