@@ -3,6 +3,7 @@ import {toast} from "react-toastify";
 import {router} from "../src/Router/Routes.tsx";
 
 axios.defaults.baseURL = "http://localhost:5278/api/";
+axios.defaults.withCredentials = true;
 
 axios.interceptors.response.use(response => {
         return response;
@@ -12,12 +13,12 @@ axios.interceptors.response.use(response => {
 
             case 400:
                 if (data.errors) {
-                    const modelErrors : string[]= [];
-                    
+                    const modelErrors: string[] = [];
+
                     for (const key in data.errors) {
                         modelErrors.push(data.errors[key]);
                     }
-                    
+
                     throw modelErrors;
                 }
                 return toast.error(data.title);
@@ -58,8 +59,15 @@ const Catalog = {
     details: (id: number) => queries.get(`products/${id}`),
 }
 
+const Cart = {
+    get: queries.get("cart"),
+    addItem: (productId: number, quantity = 1) => queries.post(`cart?productId=${productId}&quantity=${quantity}`, {}),
+    deleteItem:(productId: number, quantity = 1)=> queries.delete(`cart?productId=${productId}&quantity=${quantity}`),
+}
+
 const request = {
     Catalog,
-    Errors
+    Errors,
+    Cart
 }
 export default request;

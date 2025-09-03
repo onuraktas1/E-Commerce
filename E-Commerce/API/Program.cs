@@ -29,7 +29,7 @@ app.UseHttpsRedirection();
 
 app.UseStaticFiles();
 
-app.UseCors(ops=>ops.WithOrigins("http://localhost:3000").AllowAnyMethod().AllowAnyHeader());
+app.UseCors(ops=>ops.WithOrigins("http://localhost:3000").AllowCredentials().AllowAnyMethod().AllowAnyHeader());
 
 app.UseAuthorization();
 
