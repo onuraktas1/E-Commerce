@@ -8,6 +8,7 @@ import ProductDetailsPage from "../Pages/Catalog/ProductDetails.tsx";
 import ErrorPage from "../Pages/ErrorPage.tsx";
 import ServerError from "../../errors/ServerError.tsx";
 import NotFound from "../../errors/NotFound.tsx";
+import ShoppingCartPage from "../Pages/Cart/ShoppingCartPage.tsx";
 
 export const router = createBrowserRouter([
     {
@@ -18,6 +19,7 @@ export const router = createBrowserRouter([
             {path: "about", element: <AboutPage/>},
             {path: "contact", element: <ContactPage/>},
             {path: "catalog", element: <CatalogPage/>},
+            {path: "cart", element: <ShoppingCartPage/>},
             {path: "error", element: <ErrorPage/>},
             {path: "server-error", element: <ServerError/>},
             {path: "catalog/:id", element: <ProductDetailsPage/>},
