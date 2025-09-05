@@ -1,7 +1,5 @@
-﻿import {useEffect, useState} from "react";
-import request from "../../../api/requests.ts";
+﻿
 import {
-    CircularProgress,
     IconButton,
     Paper,
     Table,
@@ -11,22 +9,11 @@ import {
     TableHead,
     TableRow
 } from "@mui/material";
-import type {Cart} from "../../Model/ICart.ts";
-import { Delete } from "@mui/icons-material";
+import {Delete} from "@mui/icons-material";
+import {useCartContext} from "../../Context/CartContext.tsx";
 
 export default function ShoppingCartPage() {
-    const [cart, setCart] = useState<Cart | null>(null);
-    const [loading, setLoading] = useState(true);
-
-    useEffect(() => {
-        request.Cart.get()
-            .then(cart => setCart(cart))
-            .catch(e => console.log(e))
-            .finally(() => setLoading(false));
-    }, []);
-    if (loading) {
-        return <CircularProgress/>
-    }
+    const {cart} = useCartContext();
 
     if (!cart) {
         return <h1>Sepetinizde ürün yok</h1>
@@ -52,7 +39,8 @@ export default function ShoppingCartPage() {
                             sx={{'&:last-child td, &:last-child th': {border: 0}}}
                         >
                             <TableCell component="th" scope="row">
-                                <img src={`http://localhost:5278/images/${item.imageUrl}`} alt="Resim yüklenemedi" style={{height:90}} />
+                                <img src={`http://localhost:5278/images/${item.imageUrl}`} alt="Resim yüklenemedi"
+                                     style={{height: 90}}/>
                             </TableCell>
                             <TableCell component="th" scope="row">
                                 {item.name}
