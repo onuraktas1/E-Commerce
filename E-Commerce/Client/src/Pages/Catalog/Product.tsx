@@ -8,6 +8,8 @@ import request from "../../../api/requests.ts";
 import {useState} from "react";
 import {LoadingButton} from "@mui/lab";
 import {useCartContext} from "../../Context/CartContext.tsx";
+import {toast} from "react-toastify";
+import {currencyTRY} from "../../utils/formatCurrency.ts";
 
 interface Props {
     product: IProduct;
@@ -21,7 +23,10 @@ export default function Product({product}: Props) {
         setLoading(true);
 
         request.Cart.addItem(productId)
-            .then(cart => setCart(cart))
+            .then(cart => {
+                setCart(cart);
+                toast.success("Sepetinize eklendi ");
+            })
             .catch(error => console.log(error))
             .finally(() => setLoading(false));
         // loading;
@@ -36,19 +41,19 @@ export default function Product({product}: Props) {
                     {product.name}
                 </Typography>
                 <Typography variant="body2" color="secondary"></Typography>
-                {(product.price / 10).toFixed(2)}₺
+                {currencyTRY.format(product.price)}
             </CardContent>
             <CardActions>
-                
+
                 <LoadingButton
                     variant="outlined"
                     loadingPosition={"start"}
                     size={"small"}
-                    startIcon={<AddShoppingCart/>}  
-                    loading={loading} 
+                    startIcon={<AddShoppingCart/>}
+                    loading={loading}
                     onClick={() => handleAddItem(product.id)}>Sepete Ekle</LoadingButton>
-                
-                
+
+
                 <Button component={Link} to={`/catalog/${product.id}`} variant="outlined" size="small"
                         startIcon={<SearchIcon/>} color="primary">View</Button>
             </CardActions>

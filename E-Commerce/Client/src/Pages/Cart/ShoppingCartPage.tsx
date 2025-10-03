@@ -13,6 +13,9 @@ import {useCartContext} from "../../Context/CartContext.tsx";
 import {LoadingButton} from "@mui/lab";
 import {useState} from "react";
 import request from "../../../api/requests.ts";
+import {toast} from "react-toastify";
+import CartSummary from "./Cartsummary.tsx";
+import {currencyTRY} from "../../utils/formatCurrency.ts";
 
 export default function ShoppingCartPage() {
     const {cart, setCart} = useCartContext();
@@ -65,7 +68,7 @@ export default function ShoppingCartPage() {
                             <TableCell component="th" scope="row">
                                 {item.name}
                             </TableCell>
-                            <TableCell align="right">{item.price} ₺</TableCell>
+                            <TableCell align="right">{currencyTRY.format(item.price)} </TableCell>
                             <TableCell align="right">
                                 <LoadingButton
                                     loading={status && status.id === "add" + item.productId}
@@ -79,16 +82,21 @@ export default function ShoppingCartPage() {
                                     <RemoveCircleOutline/>
                                 </LoadingButton>
                             </TableCell>
-                            <TableCell align="right">{item.quantity * item.price} ₺</TableCell>
+                            <TableCell align="right">{currencyTRY.format(item.quantity * item.price)} ₺</TableCell>
                             <TableCell align="right">
                                 <LoadingButton color="error"
                                                loading={status && status.id === "dell_all" + item.productId}
-                                               onClick={() => handleDeleteItem(item.productId, "del_all"+item.productId,item.quantity)}>
+                                               onClick={() => {
+                                                   handleDeleteItem(item.productId, "del_all" + item.productId, item.quantity);
+                                                   toast.error("Ürün sepetinizden silindi")
+                                               }}>
                                     <Delete/>
                                 </LoadingButton>
                             </TableCell>
                         </TableRow>
                     ))}
+                    {/*// cart summary*/}
+                    <CartSummary></CartSummary>
                 </TableBody>
             </Table>
         </TableContainer>
