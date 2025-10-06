@@ -5,15 +5,18 @@ import {ToastContainer} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css'
 import {useEffect, useState} from "react";
 import request from "../../api/requests.ts";
-import {useCartContext} from "../Context/CartContext.tsx";
+import {useAppDispatch} from "../hooks/hook.ts";
+import {setCart} from "../Pages/Cart/cartSlice.ts";
 
 function App() {
-    const {setCart} = useCartContext();
+    
+    const dispatch=useAppDispatch();
+      
     const [loading,setLoading] =useState(true);
     
     useEffect(() => {
         request.Cart.get()
-            .then(cart=>setCart(cart))
+            .then(cart=>dispatch(setCart(cart)))
             .catch(e=>console.log(e))
             .finally(()=>setLoading(false));
     },[]);

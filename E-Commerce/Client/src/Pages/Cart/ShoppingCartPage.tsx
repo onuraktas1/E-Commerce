@@ -9,22 +9,25 @@
     TableRow
 } from "@mui/material";
 import {AddCircleOutline, Delete, RemoveCircleOutline} from "@mui/icons-material";
-import {useCartContext} from "../../Context/CartContext.tsx";
 import {LoadingButton} from "@mui/lab";
 import {useState} from "react";
 import request from "../../../api/requests.ts";
 import {toast} from "react-toastify";
 import CartSummary from "./Cartsummary.tsx";
 import {currencyTRY} from "../../utils/formatCurrency.ts";
+import {useAppDispatch, useAppSelector} from "../../hooks/hook.ts";
+import {setCart} from "./cartSlice.ts";
 
 export default function ShoppingCartPage() {
-    const {cart, setCart} = useCartContext();
+
+    const {cart} = useAppSelector(state => state.cart);
+    const dispatch = useAppDispatch();
     const [status, setStatus] = useState({loading: false, id: ""});
 
     function handleAddItem(productId: number, id: string) {
         setStatus({loading: true, id: id});
         request.Cart.addItem(productId)
-            .then(cart => setCart(cart))
+            .then(cart => dispatch(setCart(cart)))
             .catch(e => console.error(e))
             .finally(() => setStatus({loading: false, id: ""}));
     }
@@ -33,7 +36,7 @@ export default function ShoppingCartPage() {
         setStatus({loading: true, id: id});
 
         request.Cart.deleteItem(productId, quantity)
-            .then((cart) => setCart(cart))
+            .then((cart)=>dispatch(setCart(cart)))
             .catch(e => console.error(e))
             .finally(() => setStatus({loading: false, id: ""}));
     }

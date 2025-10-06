@@ -9,18 +9,21 @@
     TableRow,
     Typography
 } from "@mui/material";
-import {useParams} from "react-router";
 import {useEffect, useState} from "react";
 import type {IProduct} from "../../Model/IProduct.ts";
 import request from "../../../api/requests.ts";
 import {LoadingButton} from "@mui/lab";
 import {AddShoppingCart} from "@mui/icons-material";
-import {useCartContext} from "../../Context/CartContext.tsx";
 import {toast} from "react-toastify";
 import {currencyTRY} from "../../utils/formatCurrency.ts";
+import {useAppDispatch, useAppSelector} from "../../hooks/hook.ts";
+import {useParams} from "react-router";
+import {setCart} from "../Cart/cartSlice.ts";
 
 export default function ProductDetailsPage() {
-    const {cart, setCart} = useCartContext();
+    const {cart} = useAppSelector(state => state.cart);
+    const dispatch = useAppDispatch();
+
     const {id} = useParams<{ id: string }>();
     const [product, setProducts] = useState<IProduct | null>(null);
     const [loading, setLoading] = useState(true);
@@ -40,9 +43,9 @@ export default function ProductDetailsPage() {
 
         request.Cart.addItem(id)
             .then(cart => {
-                    setCart(cart);
-                    toast.success("Sepetinize eklendi ");
-                })
+                dispatch(setCart(cart));
+                toast.success("Sepetinize eklendi ");
+            })
             .catch(e => console.log(e))
             .finally(() => setIsAdded(false));
     }
@@ -59,7 +62,7 @@ export default function ProductDetailsPage() {
             <Grid size={{xl: 9, lg: 8, md: 7, sm: 6, xs: 12}}>
                 <Typography variant="h3">{product.name}</Typography>
                 <Divider sx={{mb: 2}}/>
-                <Typography variant="h4" color="secondary"> {currencyTRY.format(product.price) }</Typography>
+                <Typography variant="h4" color="secondary"> {currencyTRY.format(product.price)}</Typography>
                 <TableContainer>
                     <Table>
                         <TableBody>

@@ -7,9 +7,10 @@ import {Link} from "react-router";
 import request from "../../../api/requests.ts";
 import {useState} from "react";
 import {LoadingButton} from "@mui/lab";
-import {useCartContext} from "../../Context/CartContext.tsx";
 import {toast} from "react-toastify";
 import {currencyTRY} from "../../utils/formatCurrency.ts";
+import {useAppDispatch} from "../../hooks/hook.ts";
+import {setCart} from "../Cart/cartSlice.ts";
 
 interface Props {
     product: IProduct;
@@ -17,14 +18,14 @@ interface Props {
 
 export default function Product({product}: Props) {
     const [loading, setLoading] = useState(false);
-    const {setCart} = useCartContext();
+    const dispatch = useAppDispatch();
 
     function handleAddItem(productId: number) {
         setLoading(true);
 
         request.Cart.addItem(productId)
             .then(cart => {
-                setCart(cart);
+                dispatch(setCart(cart));
                 toast.success("Sepetinize eklendi ");
             })
             .catch(error => console.log(error))
